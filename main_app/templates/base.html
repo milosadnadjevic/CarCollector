@@ -19,13 +19,16 @@
     <header class="navbar-fixed">
         <nav>
             <div class="nav-wrapper blue-grey darken-1">
-                <a href="/" class="left brand-logo"> Car Collector</a>
+                <a href="{% url 'home' %}" class="left brand-logo"> Car Collector</a>
                 <ul class="right">
                     <li>
-                        <a href="/about">About</a>
+                        <a href="{% url 'about' %}">About</a>
                     </li>
                     <li>
-                        <a href="/cars">View All Cars</a>
+                        <a href="{% url 'cars_index' %}">View All Cars</a>
+                    </li>
+                    <li>
+                        <a href="{% url 'car_create' %}"> Add a New Car</a>
                     </li>
                 </ul>
             </div>

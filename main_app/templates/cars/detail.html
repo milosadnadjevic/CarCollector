@@ -1,15 +1,11 @@
 {% extends 'base.html' %}
 
 {% block title %}
-<title>My Cars</title>
+<title>Detail</title>
 {% endblock%}
 
 {% block content %}
-<h1>Cars</h1>
 
-
-{% for car in cars %}
-<a href="{% url 'cars_details' car.id %}">
    <div class="card">
     <div class="card-content">
         <span class="card-title">{{ car.make }} </span>
@@ -19,9 +15,6 @@
     </div>
 </div> 
 </a>
-
-
-{% endfor %}
 
 
 {% endblock%}
