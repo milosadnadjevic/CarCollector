@@ -13,6 +13,10 @@
         <p>{{ car.description }}</p>
         <p>Year: {{ car.year }}</p>
     </div>
+    <div class="card-action">
+        <a href="{% url 'car_update' car.id %}">Update</a>
+        <a href="{% url 'car_delete' car.id %}">Delete</a>
+    </div>
 </div> 
 </a>
 

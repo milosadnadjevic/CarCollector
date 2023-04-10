@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Car
-from django.views.generic.edit import CreateView
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 # dummy data
 
 # class Car:
@@ -36,5 +36,15 @@ class CarCreate(CreateView):
     model = Car
     fields = ('__all__' )
     template_name = 'cars/car_form.html'
-    success_url = '/cars/'
+    # success_url = '/cars/'
 
+
+class CarUpdate(UpdateView):
+    model = Car
+    fields = ('description', 'year')
+    template_name = 'cars/car_form.html'
+
+class CarDelete(DeleteView):
+    model = Car
+    success_url = '/cars/'
+    template_name = 'cars/car_confirm_delete.html'
