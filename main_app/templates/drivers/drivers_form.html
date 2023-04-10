@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title%}
+    {% if object %}
+        <title>Update {{ object.name }} </title>
+    {% else %}
+        <title>Add a Driver</title>
+    {% endif %}
+{% endblock %}
+
+{% block content%}
+{% if object %}
+<h1>Update Driver</h1>
+{% else%}
+<h1>Create Driver</h1>
+{% endif %}
+<form action="" method="post">
+    {% csrf_token %}
+    
+    <table>
+        {{ form.as_table }}
+
+    </table>
+    
+    <input type="submit" value="Submit" class="'btn blue">
+</form>
+{% endblock%}

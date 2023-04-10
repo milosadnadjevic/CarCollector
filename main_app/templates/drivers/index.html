@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}
+<title>Drivers</title>
+{% endblock %}
+
+{% block content%}
+<h1>Drivers</h1>
+{% for driver in drivers %}
+<a href="{% url 'drivers_detail' driver.id %}">
+
+    <div class="card">
+        <div class="card-content">
+            <span class="card-title">Driver's name: {{ driver.name }} <br> Years of experience: {{ driver.years_of_experience }}</span>
+        </div>
+    </div>
+</a>
+{% endfor %}
+
+{% endblock %}

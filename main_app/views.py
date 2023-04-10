@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import Car
+from .models import Driver
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 # dummy data
 
@@ -48,3 +49,28 @@ class CarDelete(DeleteView):
     model = Car
     success_url = '/cars/'
     template_name = 'cars/car_confirm_delete.html'
+
+def drivers_index(request):
+    drivers = Driver.objects.all()
+    return render(request, 'drivers/index.html', {'drivers': drivers})
+
+class DriverCreate(CreateView):
+     model = Driver
+     fields = '__all__'
+     template_name = 'drivers/drivers_form.html'
+     success_url = '/drivers/'
+
+def drivers_detail(request, driver_id):
+     driver = Driver.objects.get(id=driver_id)
+     return render(request, 'drivers/detail.html', {'driver': driver })
+
+class DriverUpdate(UpdateView):
+     model = Driver
+     fields = ('__all__') 
+     template_name = 'drivers/drivers_form.html'
+     success_url = '/drivers/'
+
+class DriverDelete(DeleteView):
+     model = Driver
+     success_url = '/drivers/'
+     template_name = 'drivers/driver_confirm_delete.html'
