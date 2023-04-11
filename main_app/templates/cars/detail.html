@@ -5,6 +5,10 @@
 {% endblock%}
 
 {% block content %}
+<h1>Car Detail</h1>
+
+<div class="row">
+    <div class="col s6">
 
    <div class="card">
     <div class="card-content">
@@ -18,7 +22,44 @@
         <a href="{% url 'car_delete' car.id %}">Delete</a>
     </div>
 </div> 
-</a>
+    </div>
+    <div class="col s6">
+        <form action="{% url 'add_service' car.id %}" method="post">
+            {% csrf_token %}
+            {{ service_form.as_p }}
+            <input type="submit" value="Add Service" class="btn green">
+        </form>
+        <h4>Car Maintnace: </h4>
+        <table class="striped">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Part</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for srvc in car.service_set.all %}
+                    <tr>
+                        <td>{{ srvc.date }}</td>
+                        <td>{{ srvc.get_car_part_display }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
 
+<script>
+    const datePickerEl = document.getElementById('id_date')
+    const formSelectEl = document.getElementById('id_car_part')
+
+    M.Datepicker.init(datePickerEl, {
+        format: 'yyyy-mm-dd',
+        defaultDate: new Date(),
+        setDefaultDate: true,
+        autoClose: true
+    })
+    M.FormSelect.init(formSelectEl)
+</script>
 
 {% endblock%}

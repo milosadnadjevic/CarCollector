@@ -25,3 +25,17 @@ class Driver(models.Model):
     
     def get_absolute_url(self):
         return reverse('drivers_detail', kwargs={'pk': self.id})
+    
+
+class Service(models.Model):
+    CAR_PART = (
+        ('T', 'Tires'),
+        ('E', 'Engine'),
+        ('I', 'Interior')
+    )
+    date = models.DateField('service_date')
+    car_part = models.CharField(max_length=1, choices=CAR_PART, default=CAR_PART[0][0])
+    car = models.ForeignKey(Car, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f'{self.get_car_part_display()} on {self.date}'

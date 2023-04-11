@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from .models import Car
 from .models import Driver
+from .forms import ServiceForm
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 # dummy data
 
@@ -29,7 +30,11 @@ def cars_index(request):
     return render(request, 'cars/index.html', {'cars': cars})
 def cars_detail(request, car_id):
     car = Car.objects.get(id=car_id)
-    return render(request, 'cars/detail.html', {'car': car})
+    service_form = ServiceForm()
+    return render(request, 'cars/detail.html', {'car': car, 'service_form': service_form})
+
+def add_service(request, car_id):
+    
 
 
 
