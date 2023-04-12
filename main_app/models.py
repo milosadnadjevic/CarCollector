@@ -39,3 +39,6 @@ class Service(models.Model):
 
     def __str__(self):
         return f'{self.get_car_part_display()} on {self.date}'
+    
+    class Meta:
+        ordering = '-date',

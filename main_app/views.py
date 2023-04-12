@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Car
 from .models import Driver
 from .forms import ServiceForm
@@ -34,8 +34,12 @@ def cars_detail(request, car_id):
     return render(request, 'cars/detail.html', {'car': car, 'service_form': service_form})
 
 def add_service(request, car_id):
-    
-
+    form = ServiceForm(request.POST)
+    if form.is_valid():
+        new_service = form.save(commit=False)
+        new_service.car_id = car_id
+        new_service.save()
+    return redirect('cars_details', car_id=car_id)
 
 
 class CarCreate(CreateView):
