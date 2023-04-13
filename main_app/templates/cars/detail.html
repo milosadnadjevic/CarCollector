@@ -52,17 +52,44 @@
 
 <div class="row">
     <div class="col s6">
-        <h3>Drivers who can drive {{ car.name }}</h3>
+        <h3>Drivers who can drive {{ car.make }}</h3>
         {% if car.drivers.count %}
         {% for driver in car.drivers.all %}
             <div class="card">
                 <div class="card-content">
                     <span class="card-title">{{driver.name}}</span>
+                    <div class="card-action">
+                        <form action="{% url 'unassoc_driver' car.id driver.id %}" method="post">
+                            {% csrf_token %}
+                            <input type="submit" value="Remove" class="btn blue">
+                        </form>
+                    </div>
                 </div>
             </div>
         {% endfor %}
         {% else %}
         <h5>No drivers yet</h5>
+        {% endif %}
+
+    </div>
+    <div class="col s6">
+        <h3>List of Drivers: </h3>
+        {% if drivers.count %}
+        {% for driver in drivers %}
+            <div class="card">
+                <div class="card-content">
+                    <span class="card-title">{{driver.name}}</span>
+                </div>
+                <div class="card-action">
+                    <form action="{% url 'assoc_driver' car.id driver.id %}" method="post">
+                        {% csrf_token %}
+                        <input type="submit" value="Add" class="btn blue">
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+        {% else %}
+        <h5>Has All available cars</h5>
         {% endif %}
 
     </div>

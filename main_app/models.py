@@ -25,18 +25,6 @@ class Car(models.Model):
 
     def get_absolute_url(self):
         return reverse('cars_details', kwargs={'car_id': self.id})
-    
-
-# class Driver(models.Model):
-#     name = models.CharField(max_length=100)
-#     years_of_experience = models.IntegerField(default=10)
-
-#     def __str__(self):
-#         return self.name
-    
-#     def get_absolute_url(self):
-#         return reverse('drivers_detail', kwargs={'pk': self.id})
-    
 
 class Service(models.Model):
     CAR_PART = (

@@ -23,15 +23,20 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
 def home(request):
     return render(request, 'home.html')
+
 def about(request):
     return render(request, 'about.html')
+
 def cars_index(request):
     cars = Car.objects.all()
     return render(request, 'cars/index.html', {'cars': cars})
+
 def cars_detail(request, car_id):
     car = Car.objects.get(id=car_id)
     service_form = ServiceForm()
-    return render(request, 'cars/detail.html', {'car': car, 'service_form': service_form})
+    car_driver_ids = car.drivers.all().values_list('id')
+    car_driver_cantdrive = Driver.objects.exclude(id__in=car_driver_ids)
+    return render(request, 'cars/detail.html', {'car': car, 'service_form': service_form, 'drivers': car_driver_cantdrive})
 
 def add_service(request, car_id):
     form = ServiceForm(request.POST)
@@ -41,6 +46,15 @@ def add_service(request, car_id):
         new_service.save()
     return redirect('cars_details', car_id=car_id)
 
+def assoc_driver(request, car_id, driver_id):
+    car = Car.objects.get(id=car_id)
+    car.drivers.add(driver_id)
+    return redirect('cars_details', car_id=car_id)
+
+def unassoc_driver(request, car_id, driver_id):
+    car = Car.objects.get(id=car_id)
+    car.drivers.remove(driver_id)
+    return redirect('cars_details', car_id=car_id)
 
 class CarCreate(CreateView):
     model = Car
