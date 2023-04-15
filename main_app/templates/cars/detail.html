@@ -61,7 +61,7 @@
                     <div class="card-action">
                         <form action="{% url 'unassoc_driver' car.id driver.id %}" method="post">
                             {% csrf_token %}
-                            <input type="submit" value="Remove" class="btn blue">
+                            <input type="submit" value="Remove" class="btn orange">
                         </form>
                     </div>
                 </div>
@@ -83,7 +83,7 @@
                 <div class="card-action">
                     <form action="{% url 'assoc_driver' car.id driver.id %}" method="post">
                         {% csrf_token %}
-                        <input type="submit" value="Add" class="btn blue">
+                        <input type="submit" value="Add" class="btn green">
                     </form>
                 </div>
             </div>

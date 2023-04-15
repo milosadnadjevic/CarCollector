@@ -26,6 +26,7 @@
                     <li>
                         <a href="{% url 'about' %}">About</a>
                     </li>
+                    {% if user.is_authenticated %}
                     <li>
                         <a href="{% url 'cars_index' %}">View All Cars</a>
                     </li>
@@ -38,6 +39,14 @@
                     <li>
                         <a href="{% url 'driver_create' %}">Add a New Driver</a>
                     </li>
+                    <li>
+                        <a href="{% url 'logout' %}">Logout</a>
+                    </li>
+                    {% else %}
+                    <li>
+                        <a href="{% url 'login' %}">Login</a>
+                    </li>
+                    {% endif %}
                 </ul>
             </div>
         </nav>
