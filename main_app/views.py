@@ -3,6 +3,8 @@ from .models import Car
 from .models import Driver
 from .forms import ServiceForm
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
 # dummy data
 
 # class Car:
@@ -56,11 +58,29 @@ def unassoc_driver(request, car_id, driver_id):
     car.drivers.remove(driver_id)
     return redirect('cars_details', car_id=car_id)
 
+def signup(request):
+    error_message = ''
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+         user = form.save()
+         login(request, user)
+         return redirect('cars_index')
+        else:
+            error_message = 'Invalid signup - try again'
+
+    form = UserCreationForm()
+    return render(request, 'registration/signup.html', {'form': form , 'error': error_message})
+
+
 class CarCreate(CreateView):
     model = Car
-    fields = ('__all__' )
+    fields = ('make', 'model', 'description', 'year')
     template_name = 'cars/car_form.html'
     # success_url = '/cars/'
+    def form_valid(self, form):
+        form.instance.user = self.request.user
+        return super().form_valid(form)
 
 
 class CarUpdate(UpdateView):
