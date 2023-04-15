@@ -5,6 +5,8 @@ from .forms import ServiceForm
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import login
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 # dummy data
 
 # class Car:
@@ -29,10 +31,12 @@ def home(request):
 def about(request):
     return render(request, 'about.html')
 
+@login_required
 def cars_index(request):
-    cars = Car.objects.all()
+    cars = Car.objects.filter(user=request.user)
     return render(request, 'cars/index.html', {'cars': cars})
 
+@login_required
 def cars_detail(request, car_id):
     car = Car.objects.get(id=car_id)
     service_form = ServiceForm()
@@ -48,11 +52,13 @@ def add_service(request, car_id):
         new_service.save()
     return redirect('cars_details', car_id=car_id)
 
+@login_required
 def assoc_driver(request, car_id, driver_id):
     car = Car.objects.get(id=car_id)
     car.drivers.add(driver_id)
     return redirect('cars_details', car_id=car_id)
 
+@login_required
 def unassoc_driver(request, car_id, driver_id):
     car = Car.objects.get(id=car_id)
     car.drivers.remove(driver_id)
@@ -73,7 +79,7 @@ def signup(request):
     return render(request, 'registration/signup.html', {'form': form , 'error': error_message})
 
 
-class CarCreate(CreateView):
+class CarCreate(LoginRequiredMixin, CreateView):
     model = Car
     fields = ('make', 'model', 'description', 'year')
     template_name = 'cars/car_form.html'
@@ -83,12 +89,12 @@ class CarCreate(CreateView):
         return super().form_valid(form)
 
 
-class CarUpdate(UpdateView):
+class CarUpdate(LoginRequiredMixin,UpdateView):
     model = Car
     fields = ('description', 'year')
     template_name = 'cars/car_form.html'
 
-class CarDelete(DeleteView):
+class CarDelete(LoginRequiredMixin,DeleteView):
     model = Car
     success_url = '/cars/'
     template_name = 'cars/car_confirm_delete.html'
@@ -97,7 +103,7 @@ def drivers_index(request):
     drivers = Driver.objects.all()
     return render(request, 'drivers/index.html', {'drivers': drivers})
 
-class DriverCreate(CreateView):
+class DriverCreate(LoginRequiredMixin,CreateView):
      model = Driver
      fields = '__all__'
      template_name = 'drivers/drivers_form.html'
@@ -107,13 +113,13 @@ def drivers_detail(request, driver_id):
      driver = Driver.objects.get(id=driver_id)
      return render(request, 'drivers/detail.html', {'driver': driver })
 
-class DriverUpdate(UpdateView):
+class DriverUpdate(LoginRequiredMixin,UpdateView):
      model = Driver
      fields = ('__all__') 
      template_name = 'drivers/drivers_form.html'
      success_url = '/drivers/'
 
-class DriverDelete(DeleteView):
+class DriverDelete(LoginRequiredMixin,DeleteView):
      model = Driver
      success_url = '/drivers/'
      template_name = 'drivers/driver_confirm_delete.html'
